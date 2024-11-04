@@ -47,6 +47,8 @@ const main = async function () {
     const nftIpfsHash = await uploadJSONToIPFS(nftMetadata)
     const nftHash = createHash('sha256').update(JSON.stringify(nftMetadata)).digest('hex')
 
+    console.log("SPG: ", SPGNFTContractAddress);
+
     // 5. Register the NFT as an IP Asset
     //
     // Docs: https://docs.story.foundation/docs/attach-terms-to-an-ip-asset#mint-nft-register-as-ip-asset-and-attach-terms
@@ -63,6 +65,8 @@ const main = async function () {
     })
     console.log(`Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId}`)
     console.log(`View on the explorer: https://explorer.story.foundation/ipa/${response.ipId}`)
+    console.log(`Completed at transaction hash ${response}`);
+
 }
 
 main()
