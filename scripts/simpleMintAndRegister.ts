@@ -37,34 +37,55 @@ const main = async function () {
     //
     // Docs: https://eips.ethereum.org/EIPS/eip-721
     const nftMetadata = {
-        name: 'NFT representing ownership of IP Asset',
-        description: 'This NFT represents ownership of an IP Asset',
-        image: 'https://i.imgur.com/gb59b2S.png',
-    }
+        "description": "Aqua Bag",
+        "image": "https://rose-occupational-bee-58.mypinata.cloud/ipfs/QmQjSy4rfqiRZsMwNKNn7s1HobzmBYTWazz4jjnAuP2Tqu",
+        "name": "BrightYellowHat",
+        "attributes": [
+          {
+            "trait_type": "Strength",
+            "value": 9
+          },
+          {
+            "trait_type": "Intelligence",
+            "value": 9
+          },
+          {
+            "trait_type": "Charisma",
+            "value": 9
+          },
+          {
+            "trait_type": "Luck",
+            "value": 7
+          },
+          {
+            "trait_type": "Defense",
+            "value": 1
+          }
+        ]
+      }
 
     // 4. Upload your IP and NFT Metadata to IPFS
     const ipIpfsHash = await uploadJSONToIPFS(ipMetadata)
     const ipHash = createHash('sha256').update(JSON.stringify(ipMetadata)).digest('hex')
-    const nftIpfsHash = await uploadJSONToIPFS(nftMetadata)
+    const nftIpfsHash = 'QmPzMW7Ggrg1zp88Ny7YZzqsQJa37ojWEd54vp2rchgsVh'
     const nftHash = createHash('sha256').update(JSON.stringify(nftMetadata)).digest('hex')
+    console.log("nftHash: ", nftHash);
 
     // 5. Mint an NFT
-    const tokenId = await mintNFT(account.address, `https://ipfs.io/ipfs/${nftIpfsHash}`)
-    console.log(`NFT minted with tokenId ${tokenId}`)
+    // const tokenId = await mintNFT(account.address, `https://ipfs.io/ipfs/${nftIpfsHash}`)
+    const tokenId = 1;
+    console.log(`NFT minted with NFTContractAddress ${NFTContractAddress}`)
 
     // 6. Register an IP Asset
     //
     // Docs: https://docs.story.foundation/docs/attach-terms-to-an-ip-asset#register-new-ip-asset-and-attach-license-terms
-    const response: RegisterIpAndAttachPilTermsResponse = await client.ipAsset.registerIpAndAttachPilTerms({
+    const response: RegisterIpAndAttachPilTermsResponse = await client.ipAsset.register({
         nftContract: NFTContractAddress,
-        tokenId: tokenId!,
-        pilType: PIL_TYPE.NON_COMMERCIAL_REMIX,
-        mintingFee: 0, // empty - doesn't apply
-        currency: AddressZero, // empty - doesn't apply
+        tokenId: "1",
         ipMetadata: {
             ipMetadataURI: `https://ipfs.io/ipfs/${ipIpfsHash}`,
             ipMetadataHash: `0x${ipHash}`,
-            nftMetadataURI: `https://ipfs.io/ipfs/${nftIpfsHash}`,
+            nftMetadataURI: `https://rose-occupational-bee-58.mypinata.cloud/ipfs/${nftIpfsHash}`,
             nftMetadataHash: `0x${nftHash}`,
         },
         txOptions: { waitForTransaction: true },
